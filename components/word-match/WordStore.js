@@ -6,9 +6,17 @@ import {
     resolvePath,
     types,
 } from 'mobx-state-tree'
+import { Howl } from 'howler'
 
 import OptionStore from './OptionStore'
 import FileStore from './FileStore'
+
+const sounds = {
+    complete: new Howl({ src: ['/audio/complete.wav'] }),
+    right: new Howl({ src: ['/audio/right.wav'] }),
+    tap: new Howl({ src: ['/audio/tap.wav'] }),
+    wrong: new Howl({ src: ['/audio/wrong.wav'] }),
+}
 
 const rdmSort = (ratio = 0.5) => () => Math.random() - ratio
 const srcSort = rdmSort(0.4)
@@ -72,17 +80,25 @@ const WordStore = types.model('Word Store', {
     },
     pick: (item, field) => {
         const {
-            anchor, clearErrors, match, setAnchor, setError,
+            anchor, clearErrors, match, setAnchor, setError, src,
         } = self
-        if (!anchor) setAnchor(item, field)
-        else if (anchor.field === field) {
+        if (!anchor) {
+            setAnchor(item, field)
+            sounds.tap.play()
+        } else if (anchor.field === field) {
             clearErrors()
             if (anchor.id === item.id) setAnchor()
-            else setAnchor(item, field)
+            else {
+                setAnchor(item, field)
+                sounds.tap.play()
+            }
         } else if (anchor.id !== item.id) {
             setError(item, field)
+            sounds.wrong.play()
         } else {
             match(item)
+            if (src.length) sounds.right.play()
+            else sounds.complete.play()
         }
     },
     refresh: flow(function *() {

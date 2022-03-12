@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 
 class OptionStore {
-    count = 5
+    count = 10
 
     fontSize = '26px'
 
