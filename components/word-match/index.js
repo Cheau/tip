@@ -27,7 +27,8 @@ export default observer(function WordMatch({ sheets }) {
             {/* language=CSS */}
             <style jsx>{`
                 .title {
-                    height: 150px;
+                    height: 120px;
+                    margin: 10px;
                 }
                 .main {
                     display: flex;
@@ -36,6 +37,7 @@ export default observer(function WordMatch({ sheets }) {
                 .subject, .answer {
                     display: inline-block;
                     height: 100%;
+                    padding: 10px;
                 }
                 .subject {
                     width: 60%;
@@ -43,6 +45,23 @@ export default observer(function WordMatch({ sheets }) {
                 .answer {
                     width: 40%;
                     border-left: 1px solid #ccc;
+                }
+                @media screen and (max-width: 767px) {
+                    .main {
+                        flex-direction: column;
+                    }
+                    .subject, .answer {
+                        display: block;
+                        height: unset;
+                    }
+                    .subject {
+                        width: 100%;
+                    }
+                    .answer {
+                        width: 100%;
+                        border-top: 1px solid #ccc;
+                        border-left: none;
+                    }
                 }
             `}</style>
         </>

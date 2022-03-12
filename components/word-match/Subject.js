@@ -28,7 +28,7 @@ export default observer(function Subject() {
     const { source, target } = WordStore
     return (
         <div className="subject">
-            <h2>题目</h2>
+            <h3>题目</h3>
             <div>
                 <div className="list source">
                     <List words={source} />

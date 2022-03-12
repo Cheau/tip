@@ -9,7 +9,7 @@ export default observer(function Answer() {
     const { result } = WordStore
     return (
         <div className="result">
-            <h2 className="header">答案</h2>
+            <h3 className="header">答案</h3>
             {result.map((item) => (
                 <div key={item.id} className="item">{item.text}: {item.meaning}</div>
             ))}
@@ -19,9 +19,11 @@ export default observer(function Answer() {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
+                    margin: 10px;
+                    margin-top: 0;
                 }
                 .result :global(.item) {
-                    width: 90%;
+                    width: 100%;
                     margin-top: 10px;
                     padding: 10px;
                     background: rgba(0, 128, 0, 0.2);
