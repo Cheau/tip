@@ -74,7 +74,7 @@ export default observer(function OptionPanel() {
                                     onChange={(val) => setSheets(val)}
                                     value={sheets}
                                 >
-                                    {FileStore.sheets.map((sheet, i) => <Checkbox key={i} value={i}>{sheet.name}</Checkbox>)}
+                                    {FileStore.sheets.map(({ id, name }) => <Checkbox key={id} value={id}>{name}</Checkbox>)}
                                 </Form.Control>
                             </Form.Group>
                         )}

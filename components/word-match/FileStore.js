@@ -1,22 +1,39 @@
-import { reaction, makeAutoObservable } from 'mobx'
+import { flow, reaction, makeAutoObservable } from 'mobx'
 import Excel from 'exceljs'
+
+const parseJson = (sheet) => {
+    const array = []
+    sheet.eachRow(((row, rowNumber) => {
+        if (row.hasValues) {
+            const [, ...rest] = row.values
+            array.push(rest)
+        }
+    }))
+    return array
+}
 
 class FileStore {
     files = []
 
-    sheets = []
+    sheetsLocal
+
+    sheetsRemote
 
     constructor() {
-        makeAutoObservable(this)
+        makeAutoObservable(this, { readSheet: flow })
     }
 
     get file() {
         return this.files.length ? this.files[0] : undefined
     }
 
+    get sheets() {
+        return this.sheetsLocal || this.sheetsRemote || []
+    }
+
     readExcel(file) {
         if (!file) {
-            this.setSheets([])
+            this.setSheets()
             return
         }
         const self = this
@@ -30,12 +47,20 @@ class FileStore {
         reader.readAsBinaryString(file.blobFile)
     }
 
+    *readSheet(sheetId) {
+        const sheet = this.sheets.slice().find((sheet) => sheet.id === sheetId)
+        if (this.sheetsLocal) return parseJson(sheet)
+        const res = yield fetch(`/api/lexicon/${sheetId}`)
+        return res.json()
+    }
+
     setFile(files) {
         this.files = files.slice(files.length - 1)
     }
 
-    setSheets(sheets) {
-        this.sheets = sheets
+    setSheets(sheets, local = true) {
+        if (local) this.sheetsLocal = sheets
+        else this.sheetsRemote = sheets
     }
 }
 

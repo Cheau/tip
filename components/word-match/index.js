@@ -2,12 +2,14 @@ import React from 'react'
 import { observer } from 'mobx-react-lite'
 
 import Answer from './Answer'
+import FileStore from './FileStore'
 import OptionPanel from './OptionPanel'
 import Subject from './Subject'
 import Title from './Title'
 import './Controller'
 
-export default observer(function WordMatch() {
+export default observer(function WordMatch({ sheets }) {
+    FileStore.setSheets(sheets, false)
     return (
         <>
             <div className="title"><Title /></div>

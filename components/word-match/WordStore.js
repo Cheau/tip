@@ -1,6 +1,6 @@
-import { reaction } from 'mobx'
 import {
     applySnapshot,
+    flow,
     getPath,
     getSnapshot,
     resolvePath,
@@ -14,16 +14,7 @@ const rdmSort = (ratio = 0.5) => () => Math.random() - ratio
 const srcSort = rdmSort(0.4)
 const tarSort = rdmSort(0.6)
 
-const parseJson = (sheet) => {
-    const array = []
-    sheet.eachRow(((row, rowNumber) => {
-        if (row.hasValues) {
-            const [, text, meaning] = row.values
-            array.push({ id: `${sheet.name}-${rowNumber}`, text, meaning})
-        }
-    }))
-    return array
-}
+const parseWord = (sheetId, array) => array.map(([text, meaning], i) => ({ id: `${sheetId}-${i}`, text, meaning }))
 
 let backup
 let reset
@@ -94,21 +85,24 @@ const WordStore = types.model('Word Store', {
             match(item)
         }
     },
-    refresh: () => {
+    refresh: flow(function *() {
         const { book, load } = self
         const { sheets } = OptionStore
-        sheets.forEach((sheet) => {
-            if (!book.has(sheet)) load(sheet, parseJson(FileStore.sheets[sheet]))
-        })
+        for (const sheet of sheets) {
+            if (book.has(sheet)) return
+            const data = yield FileStore.readSheet(sheet)
+            const words = parseWord(sheet, data)
+            if (words) load(sheet, words)
+        }
         self.candidates = sheets.map((sheet) => book.get(sheet).words).flat().map(getPath)
         self.refreshed = true
-    },
+    }),
     reset: () => {
         applySnapshot(self, reset)
     },
-    roll() {
+    roll: flow(function *() {
         const { refresh, refreshed } = self
-        if (!refreshed) refresh()
+        if (!refreshed) yield refresh()
         const { count } = OptionStore
         const { candidates } = self
         if (candidates.length <= count) {
@@ -129,7 +123,7 @@ const WordStore = types.model('Word Store', {
         }
         self.res = []
         backup = getSnapshot(self)
-    },
+    }),
     rollback: () => {
         applySnapshot(self, backup)
     },
