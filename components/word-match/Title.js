@@ -3,8 +3,8 @@ import React from 'react'
 export default function Title() {
     return (
         <div className="title">
-            <h2>单词连连看</h2>
-            <h5>请点击题目下的单词及对应含义来进行关联</h5>
+            <h2>单词消消乐</h2>
+            <h5>请点击题目下的单词及对应含义来消除</h5>
             {/* language=CSS */}
             <style jsx>{`
                 .title {

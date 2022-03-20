@@ -29,7 +29,7 @@ export default observer(function Subject() {
     return (
         <div className="subject">
             <h3>题目</h3>
-            <div>
+            <div className="lists">
                 <div className="list source">
                     <List words={source} />
                 </div>
@@ -45,7 +45,8 @@ export default observer(function Subject() {
                     flex-direction: column;
                     align-items: center;
                 }
-                .subject > div {
+                .lists {
+                    display: flex;
                     width: 100%;
                 }
                 

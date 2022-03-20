@@ -6,7 +6,12 @@ const parseJson = (sheet) => {
     sheet.eachRow(((row, rowNumber) => {
         if (row.hasValues) {
             const [, ...rest] = row.values
-            array.push(rest)
+            const plain = rest.map((cell) => {
+                if (typeof cell === 'string') return cell
+                if (typeof cell === 'object') return cell.richText.flatMap((part) => part.text).join('')
+                return ''
+            })
+            array.push(plain)
         }
     }))
     return array
@@ -51,7 +56,8 @@ class FileStore {
         const sheet = this.sheets.slice().find((sheet) => sheet.id === sheetId)
         if (this.sheetsLocal) return parseJson(sheet)
         const res = yield fetch(`/api/lexicon/${sheetId}`)
-        return res.json()
+        const data = yield res.json()
+        return data.filter((datum) => datum.length)
     }
 
     setFile(files) {

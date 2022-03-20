@@ -8,12 +8,14 @@ import {
 } from 'mobx-state-tree'
 import { Howl } from 'howler'
 
+import LayoutStore from '../../features/layout/Store'
 import OptionStore from './OptionStore'
 import FileStore from './FileStore'
 
 const sounds = {
     complete: new Howl({ src: ['/audio/complete.wav'] }),
     right: new Howl({ src: ['/audio/right.wav'] }),
+    sweep: new Howl({ src: ['/audio/sweep.wav'] }),
     tap: new Howl({ src: ['/audio/tap.wav'] }),
     wrong: new Howl({ src: ['/audio/wrong.wav'] }),
 }
@@ -87,8 +89,10 @@ const WordStore = types.model('Word Store', {
             sounds.tap.play()
         } else if (anchor.field === field) {
             clearErrors()
-            if (anchor.id === item.id) setAnchor()
-            else {
+            if (anchor.id === item.id) {
+                setAnchor()
+                sounds.sweep.play()
+            } else {
                 setAnchor(item, field)
                 sounds.tap.play()
             }
@@ -139,9 +143,11 @@ const WordStore = types.model('Word Store', {
         }
         self.res = []
         backup = getSnapshot(self)
+        LayoutStore.setOpen(false)
     }),
     rollback: () => {
         applySnapshot(self, backup)
+        LayoutStore.setOpen(false)
     },
     setAnchor: (item, field) => {
         if (!item) self.anchor = undefined

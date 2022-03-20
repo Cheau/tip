@@ -3,12 +3,12 @@ import { observer } from 'mobx-react-lite'
 
 import Answer from './Answer'
 import FileStore from './FileStore'
-import OptionPanel from './OptionPanel'
+import Options from './Options'
 import Subject from './Subject'
 import Title from './Title'
 import './Controller'
 
-export default observer(function WordMatch({ sheets }) {
+const WordMatch = observer(function Page({ sheets }) {
     FileStore.setSheets(sheets, false)
     return (
         <>
@@ -17,7 +17,6 @@ export default observer(function WordMatch({ sheets }) {
                 <div className="subject"><Subject /></div>
                 <div className="answer"><Answer /></div>
             </div>
-            <OptionPanel />
             {/* language=CSS */}
             <style jsx global>{`
                 html, body, #__next {
@@ -27,8 +26,10 @@ export default observer(function WordMatch({ sheets }) {
             {/* language=CSS */}
             <style jsx>{`
                 .title {
-                    height: 120px;
-                    margin: 10px;
+                    height: 150px;
+                    padding: 10px;
+                    background: black;
+                    color: white;
                 }
                 .main {
                     display: flex;
@@ -67,3 +68,11 @@ export default observer(function WordMatch({ sheets }) {
         </>
     )
 })
+
+export default WordMatch
+
+WordMatch.features = {
+    layout: {
+        options: <Options />,
+    }
+}

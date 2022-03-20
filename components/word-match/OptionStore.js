@@ -5,8 +5,6 @@ class OptionStore {
 
     fontSize = '26px'
 
-    open = true
-
     sheets = []
 
     constructor() {
@@ -19,10 +17,6 @@ class OptionStore {
 
     setFontSize = (fontSize) => {
         this.fontSize = `${fontSize}px`
-    }
-
-    setOpen = (open) => {
-        this.open = open
     }
 
     setSheets = (sheets) => {
