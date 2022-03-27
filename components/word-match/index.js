@@ -33,36 +33,14 @@ const WordMatch = observer(function Page({ sheets }) {
                 }
                 .main {
                     display: flex;
+                    flex-direction: column;
                     height: calc(100% - 150px);
                 }
                 .subject, .answer {
-                    display: inline-block;
-                    height: 100%;
                     padding: 10px;
                 }
-                .subject {
-                    width: 60%;
-                }
                 .answer {
-                    width: 40%;
-                    border-left: 1px solid #ccc;
-                }
-                @media screen and (max-width: 767px) {
-                    .main {
-                        flex-direction: column;
-                    }
-                    .subject, .answer {
-                        display: block;
-                        height: unset;
-                    }
-                    .subject {
-                        width: 100%;
-                    }
-                    .answer {
-                        width: 100%;
-                        border-top: 1px solid #ccc;
-                        border-left: none;
-                    }
+                    border-top: 1px solid #ccc;
                 }
             `}</style>
         </>

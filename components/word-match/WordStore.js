@@ -11,6 +11,7 @@ import { Howl } from 'howler'
 import LayoutStore from '../../features/layout/Store'
 import OptionStore from './OptionStore'
 import FileStore from './FileStore'
+import TimerStore from './TimerStore'
 
 const sounds = {
     complete: new Howl({ src: ['/audio/complete.wav'] }),
@@ -102,7 +103,10 @@ const WordStore = types.model('Word Store', {
         } else {
             match(item)
             if (src.length) sounds.right.play()
-            else sounds.complete.play()
+            else {
+                TimerStore.stop()
+                sounds.complete.play()
+            }
         }
     },
     refresh: flow(function *() {
@@ -144,10 +148,12 @@ const WordStore = types.model('Word Store', {
         self.res = []
         backup = getSnapshot(self)
         LayoutStore.setOpen(false)
+        TimerStore.start()
     }),
     rollback: () => {
         applySnapshot(self, backup)
         LayoutStore.setOpen(false)
+        TimerStore.start()
     },
     setAnchor: (item, field) => {
         if (!item) self.anchor = undefined

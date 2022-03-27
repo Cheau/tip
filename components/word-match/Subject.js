@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { observer } from 'mobx-react-lite'
 
 import Actions from './Actions'
+import Timer from './Timer'
 import OptionStore from './OptionStore'
 import WordStore from './WordStore'
 
@@ -29,6 +30,7 @@ export default observer(function Subject() {
     return (
         <div className="subject">
             <h3>题目</h3>
+            <div className="timer"><Timer /></div>
             <div className="lists">
                 <div className="list source">
                     <List words={source} />
@@ -43,7 +45,15 @@ export default observer(function Subject() {
                 .subject {
                     display: flex;
                     flex-direction: column;
+                    position: relative;
                     align-items: center;
+                }
+                .timer {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    font-size: 28px;
+                    height: 42px;
                 }
                 .lists {
                     display: flex;
