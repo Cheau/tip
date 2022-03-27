@@ -20,7 +20,7 @@ export default observer(function Answer() {
         <div className="result">
             <h3 className="header">答案</h3>
             <Row gutter={10}>
-                {result.map((item) => <Col lg={8} md={12} sm={24}><Word {...item} key={item.id} /></Col>)}
+                {result.map((item) => <Col key={item.id} lg={8} md={12} sm={24}><Word {...item} /></Col>)}
             </Row>
             {/* language=CSS */}
             <style jsx>{`
