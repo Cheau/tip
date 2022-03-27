@@ -1,8 +1,17 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
+import {
+    Col, Panel, Row,
+} from 'rsuite'
 
 import OptionStore from './OptionStore'
 import WordStore from './WordStore'
+
+const Word = ({ text, meaning }) => (
+    <Panel bordered header={text} shaded>
+        {meaning}
+    </Panel>
+)
 
 export default observer(function Answer() {
     const { fontSize } = OptionStore
@@ -10,24 +19,22 @@ export default observer(function Answer() {
     return (
         <div className="result">
             <h3 className="header">答案</h3>
-            {result.map((item) => (
-                <div key={item.id} className="item">{item.text}: {item.meaning}</div>
-            ))}
+            <Row gutter={10}>
+                {result.map((item) => <Col lg={8} md={12} sm={24}><Word {...item} key={item.id} /></Col>)}
+            </Row>
             {/* language=CSS */}
             <style jsx>{`
                 .result {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
                     margin: 10px;
                     margin-top: 0;
                 }
-                .result :global(.item) {
-                    width: 100%;
-                    margin-top: 10px;
+                .header {
+                    text-align: center;
+                }
+                .result :global(.rs-col) {
                     padding: 10px;
-                    background: rgba(0, 128, 0, 0.2);
-                    border: 1px solid green;
+                }
+                .result :global(.rs-panel-header) {
                     font-size: ${fontSize};
                 }
             `}</style>
