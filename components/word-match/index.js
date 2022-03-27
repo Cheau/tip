@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite'
 import Answer from './Answer'
 import FileStore from './FileStore'
 import Options from './Options'
+import Result from './Result'
 import Subject from './Subject'
 import Title from './Title'
 import './Controller'
@@ -17,6 +18,7 @@ const WordMatch = observer(function Page({ sheets }) {
                 <div className="subject"><Subject /></div>
                 <div className="answer"><Answer /></div>
             </div>
+            <Result />
             {/* language=CSS */}
             <style jsx global>{`
                 html, body, #__next {

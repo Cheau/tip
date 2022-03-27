@@ -50,9 +50,17 @@ const Subject = types.model('Subject', {
     anchor: types.maybe(Choice),
     errors: types.map(Choice),
     result: types.array(types.string),
+    show: types.optional(types.boolean, false),
     source: types.array(types.string),
     target: types.array(types.string),
-}).actions((self) => ({
+    trialsFailed: types.optional(types.number, 0),
+    trialsPassed: types.optional(types.number, 0),
+}).views((self) => ({
+    get accuracy() {
+        const { trialsFailed, trialsPassed } = self
+        return Math.trunc(trialsPassed / (trialsFailed + trialsPassed) * 100)
+    },
+})).actions((self) => ({
     clearErrors() {
         self.errors.clear()
     },
@@ -64,6 +72,7 @@ const Subject = types.model('Subject', {
         self.source = self.source.filter((path) => path !== pathOfItem)
         self.target = self.target.filter((path) => path !== pathOfItem)
         self.result.push(pathOfItem)
+        self.trialsPassed += 1
     },
     setAnchor(item, field) {
         if (!item) self.anchor = undefined
@@ -71,9 +80,13 @@ const Subject = types.model('Subject', {
     },
     setError(item, field) {
         self.errors.put(Choice.create({ id: item.id, field }))
+        self.trialsFailed += 1
     },
     setResult(item) {
         self.result.push(item.id)
+    },
+    setShow(show) {
+        self.show = show
     },
     setSource(source) {
         self.source = source
@@ -108,7 +121,7 @@ const WordStore = types.model('Word Store', {
     pick: (item, field) => {
         const { subject } = self
         const {
-            anchor, clearErrors, match, setAnchor, setError, source,
+            anchor, clearErrors, match, setAnchor, setError, setShow, source,
         } = subject
         if (!anchor) {
             setAnchor(item, field)
@@ -130,6 +143,7 @@ const WordStore = types.model('Word Store', {
             if (source.length) sounds.right.play()
             else {
                 TimerStore.stop()
+                setShow(true)
                 sounds.complete.play()
             }
         }
