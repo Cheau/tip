@@ -16,7 +16,7 @@ const itemNames = (item, field, errors, anchor = {}) => {
 }
 
 const List = observer(({ words, field = 'text' }) => {
-    const { anchor, errors, pick } = WordStore
+    const { pick, subject: { anchor, errors } } = WordStore
     return words.map((item) => (
         <div key={item.id} className={itemNames(item, field, errors, anchor)} onClick={() => pick(item, field)}>
             {item[field]}
