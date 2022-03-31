@@ -1,16 +1,18 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
 import {
-    Button, Col, Modal, Panel, Progress, Row,
+    Button, Col, Divider, Modal, Panel, Progress, Row,
 } from 'rsuite'
 
+import TimerStore from './TimerStore'
 import WordStore from './WordStore'
 
-const Chart = ({ percent, title }) => (
+const Chart = ({ percent, text, title }) => (
     <div className="chart">
         <Panel bordered shaded>
             <div className="title">{title}</div>
-            <Progress.Circle percent={percent} />
+            {percent && <Progress.Circle percent={percent} />}
+            {text && <div className="text">{text}</div>}
         </Panel>
         {/* language=CSS */}
         <style jsx>{`
@@ -29,11 +31,14 @@ const Chart = ({ percent, title }) => (
 )
 
 export default observer(function Result() {
-    const { subject: { accuracy, setShow, show } } = WordStore
+    const { text } = TimerStore
+    const { subject: {
+        accuracy, result, setShow, show,
+    } } = WordStore
     return (
         <Modal open={show}>
             <Modal.Header>
-                <Modal.Title>我的成绩</Modal.Title>
+                <Modal.Title>我的成绩<Divider vertical />词数：{result.length}，用时：{text}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Row>
