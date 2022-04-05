@@ -11,6 +11,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@prisma/client": "3.11.1",
     "@rsuite/icons": "1.0.2",
     "classnames": "2.3.1",
     "exceljs": "4.3.0",
@@ -27,6 +28,7 @@
   "devDependencies": {
     "eslint": "8.9.0",
     "eslint-config-next": "12.1.0",
-    "excel-loader": "1.0.1"
+    "excel-loader": "1.0.1",
+    "prisma": "3.11.1"
   }
 }
