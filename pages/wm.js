@@ -1,6 +1,6 @@
 import getSheets from './api/lexicon/sheets'
 
-import WordMatch from '../components/word-match'
+import WordMatch from 'components/word-match'
 
 export default WordMatch
 

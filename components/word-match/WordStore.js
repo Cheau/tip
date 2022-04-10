@@ -8,7 +8,7 @@ import {
 } from 'mobx-state-tree'
 import { Howl } from 'howler'
 
-import LayoutStore from '../../features/layout/Store'
+import LayoutStore from 'features/layout/Store'
 import OptionStore from './OptionStore'
 import FileStore from './FileStore'
 import TimerStore from './TimerStore'

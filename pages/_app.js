@@ -1,8 +1,8 @@
 import 'rsuite/dist/rsuite.min.css'
 
-import '../styles/globals.css'
+import 'styles/globals.css'
 
-import withLayout from '../features/layout'
+import withLayout from 'features/layout'
 
 function MyApp({ Component, pageProps }) {
   const page = <Component {...pageProps} />

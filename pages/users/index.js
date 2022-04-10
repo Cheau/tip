@@ -3,7 +3,7 @@ import {
     Table,
 } from 'rsuite'
 
-import prisma from '../../lib/prisma'
+import prisma from 'lib/prisma'
 
 const { Cell, Column, HeaderCell } = Table
 
