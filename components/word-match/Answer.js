@@ -24,7 +24,7 @@ export default observer(function Answer() {
         <div className="result">
             <Text h3>答案</Text>
             <Grid.Container gap={2}>
-                {result.map((item) => <Word {...item} />)}
+                {result.map((item) => <Word key={item.id} {...item} />)}
             </Grid.Container>
         </div>
     )
