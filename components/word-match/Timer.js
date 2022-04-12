@@ -1,20 +1,24 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
-import TimeIcon from '@rsuite/icons/Time'
+import { IoTimeOutline } from 'react-icons/io5'
 
 import TimerStore from './TimerStore'
 
 export default observer(function Timer() {
-    const { text } = TimerStore
+    const { pending, text } = TimerStore
+    if (pending) return null
     return (
         <div className="timer">
-            <TimeIcon />&nbsp;{text}
+            <IoTimeOutline />&nbsp;{text}
             {/* language=CSS */}
             <style jsx>{`
                 .timer {
                     display: flex;
                     align-items: center;
+                    height: 100%;
+                    line-height: 100%;
                     color: #808080;
+                    font-size: 80%;
                     font-variant-numeric: tabular-nums;
                 }
             `}</style>

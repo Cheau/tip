@@ -1,43 +1,31 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
-import {
-    Col, Panel, Row,
-} from 'rsuite'
+import { Card, Grid, Text } from '@nextui-org/react'
 
 import OptionStore from './OptionStore'
 import WordStore from './WordStore'
 
+const { size } = OptionStore
+const size2 = Math.trunc(size * 0.8)
+
 const Word = ({ text, meaning }) => (
-    <Panel bordered header={text} shaded>
-        {meaning}
-    </Panel>
+    <Grid>
+        <Card>
+            <Text size={size}>{text}</Text>
+            <Text color="#808080" size={size2}>{meaning}</Text>
+        </Card>
+    </Grid>
 )
 
 export default observer(function Answer() {
-    const { fontSize } = OptionStore
     const { result } = WordStore
+    if (!result.length) return null
     return (
         <div className="result">
-            <h3 className="header">答案</h3>
-            <Row gutter={10}>
-                {result.map((item) => <Col key={item.id} lg={8} md={12} sm={24}><Word {...item} /></Col>)}
-            </Row>
-            {/* language=CSS */}
-            <style jsx>{`
-                .result {
-                    margin: 10px;
-                    margin-top: 0;
-                }
-                .header {
-                    text-align: center;
-                }
-                .result :global(.rs-col) {
-                    padding: 10px;
-                }
-                .result :global(.rs-panel-header) {
-                    font-size: ${fontSize};
-                }
-            `}</style>
+            <Text h3>答案</Text>
+            <Grid.Container gap={2}>
+                {result.map((item) => <Word {...item} />)}
+            </Grid.Container>
         </div>
     )
 })

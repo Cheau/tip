@@ -1,30 +1,45 @@
 import React from 'react'
+import dynamic from 'next/dynamic'
 import { observer } from 'mobx-react-lite'
+import {
+    Container,
+} from '@nextui-org/react'
 
 import Answer from './Answer'
 import FileStore from './FileStore'
 import Options from './Options'
 import Result from './Result'
-import Subject from './Subject'
+import Stats from './Stats'
 import Title from './Title'
 import './Controller'
+
+const Subject = dynamic(() => import('./Subject'), { ssr: false })
+
+const Block = ({ children }) => (
+    <Container gap={0} css={{
+        margin: '20px 0',
+    }}>
+        {children}
+    </Container>
+)
 
 const WordMatch = observer(function Page({ sheets }) {
     FileStore.setSheets(sheets, false)
     return (
         <>
             <div className="title"><Title /></div>
-            <div className="main">
-                <div className="subject"><Subject /></div>
-                <div className="answer"><Answer /></div>
-            </div>
+            <Container display="flex" justify="center" lg>
+                <Block>
+                    <Subject />
+                </Block>
+                <Block>
+                    <Stats title="统计" />
+                </Block>
+                <Block>
+                    <Answer />
+                </Block>
+            </Container>
             <Result />
-            {/* language=CSS */}
-            <style jsx global>{`
-                html, body, #__next {
-                    height: 100%;
-                }
-            `}</style>
             {/* language=CSS */}
             <style jsx>{`
                 .title {
@@ -32,17 +47,6 @@ const WordMatch = observer(function Page({ sheets }) {
                     padding: 10px;
                     background: black;
                     color: white;
-                }
-                .main {
-                    display: flex;
-                    flex-direction: column;
-                    height: calc(100% - 150px);
-                }
-                .subject, .answer {
-                    padding: 10px;
-                }
-                .answer {
-                    border-top: 1px solid #ccc;
                 }
             `}</style>
         </>

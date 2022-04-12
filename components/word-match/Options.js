@@ -1,12 +1,9 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
 import {
-    Checkbox,
-    CheckboxGroup,
-    Divider,
-    Form,
-    InputNumber,
-    Slider,
+    Checkbox, Radio, Text,
+} from '@nextui-org/react'
+import {
     Uploader,
 } from 'rsuite'
 import { Icon } from '@rsuite/icons'
@@ -16,73 +13,84 @@ import Actions from './Actions'
 import FileStore from './FileStore'
 import OptionStore from './OptionStore'
 
+const radioCss = {
+    alignItems: 'center',
+    flexWrap: 'wrap',
+}
+
 const setFile = (files) => {
     FileStore.setFile(files)
 }
 
+const ImportLexicon = () => (
+    <div className="import">
+        <Uploader
+            accept=".xls,.xlsx"
+            action="/"
+            autoUpload={false}
+            fileList={FileStore.files}
+            listType="text"
+            multiple={false}
+            onChange={setFile}
+        >
+            <button>
+                <Icon as={SiMicrosoftexcel} size="3em" style={{ color: '#1D6F42' }} /> 导入词库
+            </button>
+        </Uploader>
+        {/* language=CSS */}
+        <style jsx>{`
+            .import :global(.rs-uploader input) {
+                width: 0;
+            }
+        `}</style>
+    </div>
+)
+
 export default observer(function Options() {
-    const { files } = FileStore
     const {
-        count, fontSize, sheets,
-        setCount, setFontSize, setSheets,
+        count, size, sheets,
+        setCount, setSize, setSheets,
     } = OptionStore
     return (
-        <Form fluid>
-            <Form.Group>
-                <Uploader
-                    accept=".xls,.xlsx"
-                    action="/"
-                    autoUpload={false}
-                    fileList={files}
-                    listType="picture-text"
-                    multiple={false}
-                    onChange={setFile}
-                >
-                    <button>
-                        <Icon as={SiMicrosoftexcel} size="3em" style={{ color: '#1D6F42' }} /> 导入词库
-                    </button>
-                </Uploader>
-            </Form.Group>
+        <>
+            <ImportLexicon />
+            <Text color="error">请选择出题范围</Text>
             {FileStore.sheets.length > 0 && (
-                <Form.Group>
-                    <Form.ControlLabel>出题范围</Form.ControlLabel>
-                    <Form.Control
-                        accepter={CheckboxGroup}
-                        name="sheets"
-                        onChange={(val) => setSheets(val)}
-                        value={sheets}
-                    >
-                        {FileStore.sheets.map(({ id, name }) => <Checkbox key={id} value={id}>{name}</Checkbox>)}
-                    </Form.Control>
-                </Form.Group>
+                <Checkbox.Group
+                    onChange={(val) => setSheets(val)}
+                    size="sm"
+                    value={sheets}
+                >
+                    {FileStore.sheets.map(({ id, name }) => <Checkbox key={id} value={id}>{name}</Checkbox>)}
+                </Checkbox.Group>
             )}
             <Actions />
-            <Divider />
-            <Form.Group>
-                <Form.ControlLabel>单词数</Form.ControlLabel>
-                <Form.Control
-                    accepter={InputNumber}
-                    min={1}
-                    name="count"
-                    onChange={(val) => setCount(val)}
-                    value={count}
-                />
-            </Form.Group>
-            <Form.Group>
-                <Form.ControlLabel>单词字号</Form.ControlLabel>
-                <Form.Control
-                    accepter={Slider}
-                    graduated={true}
-                    max={36}
-                    min={16}
-                    name="fs"
-                    onChange={(val) => setFontSize(val)}
-                    progress
-                    renderMark={(mark) => mark}
-                    step={2}
-                    value={Number(fontSize.slice(0, fontSize.length - 2))}
-                />
-            </Form.Group>
-        </Form>
+            <Text>单词数</Text>
+            <Radio.Group
+                onChange={(val) => setCount(val)}
+                row
+                value={count}
+                css={radioCss}
+            >
+                <Radio value={3}>3</Radio>
+                <Radio value={5}>5</Radio>
+                <Radio value={10}>10</Radio>
+                <Radio value={15}>15</Radio>
+                <Radio value={20}>20</Radio>
+            </Radio.Group>
+            <Text>单词字号</Text>
+            <Radio.Group
+                onChange={(val) => setSize(val)}
+                row
+                value={size}
+                css={radioCss}
+            >
+                <Radio size="xs" value={14}>14</Radio>
+                <Radio size="sm" value={16}>16</Radio>
+                <Radio size="md" value={20}>20</Radio>
+                <Radio size="lg" value={24}>24</Radio>
+                <Radio size="xl" value={28}>28</Radio>
+            </Radio.Group>
+        </>
     )
 })

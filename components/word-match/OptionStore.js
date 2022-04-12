@@ -3,7 +3,7 @@ import { makeAutoObservable } from 'mobx'
 class OptionStore {
     count = 10
 
-    fontSize = '26px'
+    size = 20
 
     sheets = []
 
@@ -15,8 +15,8 @@ class OptionStore {
         this.count = count
     }
 
-    setFontSize = (fontSize) => {
-        this.fontSize = `${fontSize}px`
+    setSize = (size) => {
+        this.size = size
     }
 
     setSheets = (sheets) => {
@@ -26,3 +26,5 @@ class OptionStore {
 
 const optionStore = new OptionStore()
 export default optionStore
+
+if (typeof window !== 'undefined') optionStore.setSize(window.screen.width > 768 ? 20 : 14)

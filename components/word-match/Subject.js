@@ -1,6 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
 import { observer } from 'mobx-react-lite'
+import {
+    Text,
+} from '@nextui-org/react'
 
 import Actions from './Actions'
 import Timer from './Timer'
@@ -25,11 +28,11 @@ const List = observer(({ words, field = 'text' }) => {
 })
 
 export default observer(function Subject() {
-    const { fontSize } = OptionStore
+    const { size } = OptionStore
     const { source, target } = WordStore
     return (
         <div className="subject">
-            <h3>题目</h3>
+            <Text h3>题目</Text>
             <div className="timer"><Timer /></div>
             <div className="lists">
                 <div className="list source">
@@ -46,7 +49,6 @@ export default observer(function Subject() {
                     display: flex;
                     flex-direction: column;
                     position: relative;
-                    align-items: center;
                 }
                 .timer {
                     position: absolute;
@@ -68,10 +70,10 @@ export default observer(function Subject() {
 
                 .list :global(.item) {
                     margin: 10px;
-                    padding: 10px;
+                    padding: 5px;
                     background: #eaeaea;
                     border: 1px solid transparent;
-                    font-size: ${fontSize};
+                    font-size: ${size}px;
                 }
 
                 .list :global(.item:hover) {
