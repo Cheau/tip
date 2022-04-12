@@ -11,6 +11,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@nextui-org/react": "1.0.8-beta.5",
     "@prisma/client": "3.11.1",
     "@rsuite/icons": "1.0.2",
     "classnames": "2.3.1",

@@ -1,3 +1,4 @@
+import { NextUIProvider } from '@nextui-org/react'
 import 'rsuite/dist/rsuite.min.css'
 
 import 'styles/globals.css'
@@ -8,7 +9,11 @@ function MyApp({ Component, pageProps }) {
   const page = <Component {...pageProps} />
   const { features = {} } = Component
   const { layout = {} } = features
-  return withLayout(page, layout)
+  return (
+      <NextUIProvider>
+        {withLayout(page, layout)}
+      </NextUIProvider>
+  )
 }
 
 export default MyApp
