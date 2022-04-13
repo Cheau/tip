@@ -6,20 +6,12 @@ import {
     resolvePath,
     types,
 } from 'mobx-state-tree'
-import { Howl } from 'howler'
 
+import sounds from 'lib/sounds'
 import LayoutStore from 'features/layout/Store'
 import OptionStore from './OptionStore'
 import FileStore from './FileStore'
 import TimerStore from './TimerStore'
-
-const sounds = {
-    complete: new Howl({ src: ['/audio/complete.wav'] }),
-    right: new Howl({ src: ['/audio/right.wav'] }),
-    sweep: new Howl({ src: ['/audio/sweep.wav'] }),
-    tap: new Howl({ src: ['/audio/tap.wav'] }),
-    wrong: new Howl({ src: ['/audio/wrong.wav'] }),
-}
 
 const rdmSort = (ratio = 0.5) => () => Math.random() - ratio
 const srcSort = rdmSort(0.4)
