@@ -7,8 +7,9 @@ import WordStore from './WordStore'
 
 export default observer(function Actions() {
     const { sheets } = OptionStore
-    if (!sheets.length) return null
-    const { roll, rollback } = WordStore
+    const {
+        source, result, roll, rollback,
+    } = WordStore
     return (
         <Container
             display="flex"
@@ -18,9 +19,11 @@ export default observer(function Actions() {
             css={{
                 margin: '10px 0',
         }}>
-            <Button auto onClick={roll} rounded>出题</Button>
+            <Button auto disabled={!sheets.length} onClick={roll} rounded>出题</Button>
             <Spacer x={1} />
-            <Button auto bordered onClick={rollback} rounded>重做</Button>
+            <Button auto bordered disabled={!source.length && !result.length} onClick={rollback} rounded>
+                重做
+            </Button>
         </Container>
     )
 })
