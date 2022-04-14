@@ -1,4 +1,5 @@
 import React from 'react'
+import dynamic from 'next/dynamic'
 import { observer } from 'mobx-react-lite'
 import {
     Container,
@@ -9,9 +10,10 @@ import FileStore from './FileStore'
 import Options from './options'
 import Result from './Result'
 import Stats from './Stats'
-import Subject from './Subject'
 import Title from './Title'
 import './Controller'
+
+const Subject = dynamic(() => import('./Subject'), { ssr: false })
 
 const Block = ({ children }) => (
     <Container gap={0} css={{
