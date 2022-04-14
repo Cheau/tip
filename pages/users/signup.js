@@ -1,12 +1,12 @@
 import React from 'react'
 
-import Register from 'components/register'
+import Signup from 'components/users/signup'
 
-export default function register() {
+export default function signup() {
     return (
         <div className="page">
             <div className="main">
-                <Register />
+                <Signup />
             </div>
             {/* language=CSS */}
             <style jsx global>{`
