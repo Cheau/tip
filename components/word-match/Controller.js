@@ -1,4 +1,5 @@
 import { reaction, when } from 'mobx'
+import { onAction } from 'mobx-state-tree'
 
 import { init } from 'lib/sounds'
 import FileStore from './FileStore'
@@ -11,3 +12,6 @@ reaction(() => FileStore.file, () => {
     OptionStore.setSheets([])
 })
 reaction(() => OptionStore.sheets, () => WordStore.setRefreshed(false))
+onAction(WordStore, ({ name }) => {
+    if (name === 'roll') OptionStore.setShowRange(false)
+})

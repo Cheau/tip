@@ -7,13 +7,12 @@ import {
 
 import Answer from './Answer'
 import FileStore from './FileStore'
-import Options from './Options'
+import Options from './options'
 import Result from './Result'
 import Stats from './Stats'
+import Subject from './Subject'
 import Title from './Title'
 import './Controller'
-
-const Subject = dynamic(() => import('./Subject'), { ssr: false })
 
 const Block = ({ children }) => (
     <Container gap={0} css={{
@@ -27,8 +26,8 @@ const WordMatch = observer(function Page({ sheets }) {
     FileStore.setSheets(sheets, false)
     return (
         <>
-            <div className="title"><Title /></div>
             <Container display="flex" justify="center" lg>
+                <Title />
                 <Block>
                     <Subject />
                 </Block>

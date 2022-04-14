@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx'
 
 class Store {
 
-    open = true
+    open = false
 
     constructor() {
         makeAutoObservable(this)

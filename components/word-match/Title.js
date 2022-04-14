@@ -1,20 +1,30 @@
 import React from 'react'
+import { observer } from 'mobx-react-lite'
+import {
+    Avatar, Collapse, Container,
+} from '@nextui-org/react'
 
-export default function Title() {
+import { Required } from './options'
+import OptionStore from './OptionStore'
+import { GiAbstract089 } from 'react-icons/gi'
+
+const logo = <Avatar icon={<GiAbstract089 style={{ fontSize: '2em' }} />} size="lg" squared />
+
+export default observer(function Title() {
     return (
-        <div className="title">
-            <h2>单词消消乐</h2>
-            <h5>请点击题目下的单词及对应含义来消除</h5>
-            {/* language=CSS */}
-            <style jsx>{`
-                .title {
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    height: 100%;
-                }
-            `}</style>
-        </div>
+        <>
+            <Collapse
+                contentLeft={logo}
+                expanded={OptionStore.showRange}
+                shadow
+                subtitle="请选择范围后在题目下点击出题"
+                title="单词消消乐"
+                css={{ width: '100%' }}
+            >
+                <Container fluid gap={1}>
+                    <Required />
+                </Container>
+            </Collapse>
+        </>
     )
-}
+})

@@ -7,6 +7,8 @@ class OptionStore {
 
     sheets = []
 
+    showRange = true
+
     constructor() {
         makeAutoObservable(this)
     }
@@ -21,6 +23,10 @@ class OptionStore {
 
     setSheets = (sheets) => {
         this.sheets = sheets
+    }
+
+    setShowRange = (showRange) => {
+        this.showRange = showRange
     }
 }
 

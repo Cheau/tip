@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { observer } from 'mobx-react-lite'
 import {
-    Text,
+    Button, Text,
 } from '@nextui-org/react'
 
 import Actions from './Actions'
@@ -33,6 +33,9 @@ export default observer(function Subject() {
     return (
         <div className="subject">
             <Text h3>题目</Text>
+            {source.length > 0 && <Button color="primary" disabled light>
+                点击单词和与之相符的含义来消除
+            </Button>}
             <div className="timer"><Timer /></div>
             <div className="lists">
                 <div className="list source">
@@ -42,7 +45,7 @@ export default observer(function Subject() {
                     <List words={target} field="meaning" />
                 </div>
             </div>
-            {source.length === 0 && <Actions />}
+            <Actions />
             {/* language=CSS */}
             <style jsx>{`
                 .subject {
