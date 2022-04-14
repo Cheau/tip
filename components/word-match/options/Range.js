@@ -15,8 +15,14 @@ export default observer(function Range() {
             {FileStore.sheets.length > 0 && (
                 <Checkbox.Group
                     onChange={(val) => setSheets(val)}
+                    row
                     size="sm"
                     value={sheets}
+                    css={{
+                        '& div': {
+                            flexWrap: 'wrap',
+                        }
+                    }}
                 >
                     {FileStore.sheets.map(({ id, name }) => <Checkbox key={id} value={id}>{name}</Checkbox>)}
                 </Checkbox.Group>
